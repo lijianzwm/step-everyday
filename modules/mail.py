@@ -102,16 +102,17 @@ class MailSender(object):
 
     def send(self, addr, title, content):
         """发送邮件，地址，标题，内容"""
-        msg = MIMEText(content, _subtype='html', _charset='utf8')
-        msg['Subject'] = title
-        msg['From'] = self.username+"@163.com"
-        msg['To'] = addr
-        try:
-            self.server.sendmail(self.username+"@163.com", addr, msg.as_string())
-            return True
-        except:
-            logger.error(traceback.format_exc())
-            return False
+        if content != "":
+            msg = MIMEText(content, _subtype='html', _charset='utf8')
+            msg['Subject'] = title
+            msg['From'] = self.username+"@163.com"
+            msg['To'] = addr
+            try:
+                self.server.sendmail(self.username+"@163.com", addr, msg.as_string())
+                return True
+            except:
+                logger.error(traceback.format_exc())
+                return False
 
 
 
