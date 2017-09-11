@@ -9,7 +9,7 @@ import datetime
 import smtplib
 from email.mime.text import MIMEText
 import traceback
-import json
+from logger import logger
 
 
 class Email:
@@ -69,7 +69,6 @@ class MailBox:
             email = Email()
             email.parse_from_msg(mail)
             if email.from_addr.strip() in Config.RECEIVE_LIST:
-                print email
                 email_list.append(email)
         return email_list
 
@@ -107,12 +106,11 @@ class MailSender(object):
         msg['Subject'] = title
         msg['From'] = self.username+"@163.com"
         msg['To'] = addr
-        print msg
         try:
             self.server.sendmail(self.username+"@163.com", addr, msg.as_string())
             return True
         except:
-            print traceback.format_exc()
+            logger.error(traceback.format_exc())
             return False
 
 
