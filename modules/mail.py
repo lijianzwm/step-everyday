@@ -50,7 +50,7 @@ class Email:
 class MailBox:
 
     def __init__(self):
-        self.dt = datetime.datetime.now().strftime('%Y-%m-%d')
+        self.dt = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
 
     def __enter__(self):
         self.conn = poplib.POP3_SSL(Config.MAIL_HOST)
