@@ -26,7 +26,10 @@ class Email:
             self.to_addr = email.utils.parseaddr(msg.get('to'))[1]
             subject = msg.get('subject')
             h = email.Header.Header(subject)
-            dh = email.Header.decode_header(h)
+            dh = list(email.Header.decode_header(h))
+            dh[0] = list(dh[0])
+            if dh[0][1] is None:
+                dh[0][1] = "utf-8"
             self.title = unicode(dh[0][0], dh[0][1]).encode('utf8')
             self.content = ""
             for part in msg.walk():
@@ -113,9 +116,4 @@ class MailSender(object):
             except:
                 logger.error(traceback.format_exc())
                 return False
-
-
-
-
-
 
